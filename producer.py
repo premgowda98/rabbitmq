@@ -1,5 +1,5 @@
 import pika
-
+import time
 conn_params = pika.ConnectionParameters('localhost')
 
 connection = pika.BlockingConnection(conn_params)
@@ -8,9 +8,12 @@ channel = connection.channel()
 
 channel.queue_declare(queue='letterbox')
 
-message = "Hello this is my first message"
+for i in range(5):
+    time.sleep(2)
 
-channel.basic_publish(exchange='', routing_key='letterbox', body=message)
+    message = f"Message {i}"
+
+    channel.basic_publish(exchange='', routing_key='letterbox', body=message)
 
 print("Message sent")
 
