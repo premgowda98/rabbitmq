@@ -7,11 +7,12 @@ connection = pika.BlockingConnection(conn_params)
 
 channel = connection.channel()
 
-channel.exchange_declare(exchange='pubsub', exchange_type=ExchangeType.fanout)
 
-message = 'Broadcast this message'
+channel.exchange_declare(exchange='routing', exchange_type=ExchangeType.direct)
 
-channel.basic_publish(exchange='pubsub', routing_key='', body = message)
+message = 'Routing messages'
+
+channel.basic_publish(exchange='routing', routing_key='both', body = message)
 
 print('Message broadcasted')
 
